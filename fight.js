@@ -11,8 +11,17 @@ class Character {
 }
 
 Character.prototype.attackCharacter = function(defender) {
-  // Implement me!
+  var baseDmg = 0;
+  if (this.attack > defender.defense){ // Only assign dmg when +
+    baseDmg = this.attack - defender.defense;
+  }
+
+  var randomDmg = Math.floor((Math.random() * 10) + 1);
+  var totalDmg = baseDmg + randomDmg;
+  defender.health = defender.health - totalDmg;
+  console.log(this.name + " does " + totalDmg + " to " + defender.name);
 }
+
 
 // Main Fight Logic
 var player = new Character('Edward Norton', 100, 25, 20);
@@ -26,7 +35,17 @@ while (player.health && enemy.health) {
 }
 
 function runRound(round, p1, p2) {
-  // Implement me!
+  console.log("----- Round " + round + " -----");
+  p1.attackCharacter(p2);
+  if (p2.health <= 0){
+    endGame(p1,p2);
+  }
+  p2.attackCharacter(p1);
+  if (p1.health <= 0){
+    endGame(p2,p1);
+  }
+  console.log(p1.name + " health: " + p1.health);
+  console.log(p2.name + " health: " + p2.health);
 }
 
 function endGame(winner, loser) {
